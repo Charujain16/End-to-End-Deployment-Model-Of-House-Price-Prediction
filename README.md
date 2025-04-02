@@ -36,7 +36,7 @@ This project aims to predict house prices in **Delhi** using **machine learning 
    pip install -r requirements.txt
    
 2. **Run the Flask API**
-   API runs at http://127.0.0.1:5000/
+   API runs at http://127.0.0.1:5000/predict
    If Flask API not starting?--> Ensure port 5000 is available.
 
 4. **Make a Prediction**
