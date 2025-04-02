@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 """# Part 1:- Data Preprocessing"""
 
-df = pd.read_csv('Delhi house data.csv')
+df = pd.read_csv('/workspaces/End-to-End-Deployment-Model-Of-House-Price-Prediction/Delhi house data.csv')
 df.head()
 
 df.shape
@@ -20,9 +20,9 @@ df.isnull().sum()
 
 df.drop(columns=['Status'],inplace=True)  # drop the column 'Status' as it is not contibute in predictiin of house price
 
-df.duplicated().sum()
+df.duplicated().sum()   # return count of duplicate values
 
-df.drop_duplicates(inplace = True)
+df.drop_duplicates(inplace = True)  # drop the duplicate values
 
 df[['Bathroom', 'Per_Sqft']] = df[['Bathroom', 'Per_Sqft']].fillna(df[['Bathroom', 'Per_Sqft']].mean())
 
@@ -167,24 +167,24 @@ X = df.drop(columns=['Price'])
 y = df['Price']
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+results = []
 
 # Train, predict, and evaluate each model in a loop
 for name, model in model_selection.items():
-  print(f"\n Evaluating {name}...\n")
+    model.fit(X_train, y_train)  # Train model
+    y_pred = model.predict(X_test)  # Make prediction
 
-  model.fit(X_train, y_train)    # train model
+    # Compute metrics
+    mae = mean_absolute_error(y_test, y_pred)
+    rmse = np.sqrt(mean_squared_error(y_test, y_pred))
+    r2 = r2_score(y_test, y_pred)
+    
+    # Append results to the list
+    results.append([name, mae, rmse, r2])
 
-  y_pred = model.predict(X_test)
-
-  # Compute metrics
-  mae = mean_absolute_error(y_test, y_pred)
-  rmse = np.sqrt(mean_squared_error(y_test, y_pred))
-  r2 = r2_score(y_test, y_pred)
-
-  y_pred = model.predict(X_test)   # make Prediction
-  print(f"Mean Absolute Error: {mae}")
-  print(f"Root Mean Squared Error: {rmse}")
-  print(f"R-squared: {r2}")
+# Convert results to a DataFrame
+df_results = pd.DataFrame(results, columns=["Model", "Mean Absolute Error", "Root Mean Squared Error", "R² Score"])
+print(df_results.to_string(index=False)) # Print the DataFrame in a readable format
 
 from sklearn.model_selection import RandomizedSearchCV
 
