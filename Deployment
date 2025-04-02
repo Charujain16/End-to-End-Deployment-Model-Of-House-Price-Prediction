@@ -8,7 +8,6 @@ import pandas as pd
 
 # Load the trained model
 model = joblib.load("final_house_price_model.pkl")
-# scaler = joblib.load("scaler.pkl")
 
 # Define preprocessing function
 def preprocess_input(input_data):
