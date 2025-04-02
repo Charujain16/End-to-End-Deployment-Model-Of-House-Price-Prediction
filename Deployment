@@ -1,55 +1,6 @@
 """# Model Deployment"""
 
 """# Creating the Flask API"""
-# from flask import Flask, request, jsonify
-# import joblib
-# import numpy as np
-
-# # Load trained model
-# model = joblib.load("final_house_price_model.pkl")
-
-# # Initialize Flask app
-# app = Flask(__name__)
-
-# # Define preprocessing function (modify as per your model's preprocessing)
-# def preprocess_input(data):
-#     input_array = np.array([
-#         data["Area"],
-#         data["Bathroom"],
-#         data["Parking"],
-#         data["Per_Sqft"],
-#         data["Furnishing"],
-#         data["Transaction"],
-#         data["Locality_Encoded"]
-#     ]).reshape(1, -1)  # Adjust this to match your model's input structure
-#     return input_array
-# # {
-# #     "Area": 1500,
-# #     "Bathroom": 3,
-# #     "Parking": 2,
-# #     "Per_Sqft": 7500,
-# #     "Furnishing": "Furnished",
-# #     "Transaction": "Resale",
-# #     "Locality_Encoded": 25
-# # }
-
-# # Define prediction route
-
-# @app.route('/predict', methods=['POST'])
-# def predict():
-#     try:
-#         data = request.get_json()  # Get input data as JSON
-#         input_data = preprocess_input(data)  # Preprocess input
-#         prediction = model.predict(input_data)  # Get prediction
-#         return jsonify({"Predicted House Price": round(float(prediction[0]), 2)})  # Return response
-#     except Exception as e:
-#         return jsonify({"error": str(e)})
-
-# # Run Flask app
-# if __name__ == '__main__':
-#     app.run(debug=True)
-
-#****************************************************************************************************
 from flask import Flask, request, jsonify
 import numpy as np
 import joblib
@@ -70,10 +21,6 @@ def preprocess_input(input_data):
     if df['Type'].isnull().any():
        raise ValueError("Invalid value in 'Type' Column")
 
-    # # Scale numerical data if needed (ensure MinMaxScaler is applied correctly)
-    # scaler = joblib.load("final_house_price_model.pkl")  # Load the same scaler used during training
-    # df_scaled = scaler.transform(df)
-
     return df.values
 
 # Flask App
@@ -93,40 +40,3 @@ def predict():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-#_________________________________________________________________________#
-
-# # Load trained model
-# model = joblib.load('final_house_price_model (1).pkl')
-
-# # Initialize Flask app
-# app = Flask(__name__)
-
-# # define Prerocessing function
-# def preprocess_input(input_data):
-#   input_arr = np.array([
-#         input_data['Area'],
-#         input_data['Bathroom'],
-#         input_data['Parking'],
-#         input_data['Per_Sqft'],
-#         input_data['Furnishing'],
-#         input_data['Transaction'],
-#         input_data['Locality_Encoded']])
-#   input_arr = input_arr.reshape(1,-1)
-#   return input_arr
-
-# # Define Prediction route
-# @app.route('/predict', methods = ['POST'])
-# def predict():
-#   try:
-#     input_data = request.get_json()    # Get input data as json
-#     input_arr = preprocess_input(input_data)   # preprocess the input
-#     prediction = model.predict(input_arr)  #    Get Prediction
-#     return jsonify({"Predicted House Price": round(float(prediction[0]), 2)})
-#   except Exception as e:
-#     return jsonify({"Error":str(e)})
-
-# # run Flask App
-# if __name__ == '__main__':
-#   app.run()
-
