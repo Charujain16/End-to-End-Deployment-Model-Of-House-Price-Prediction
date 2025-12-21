@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 """# Part 1:- Data Preprocessing"""
 
-df = pd.read_csv('/workspaces/End-to-End-Deployment-Model-Of-House-Price-Prediction/Delhi house data.csv')
+df = pd.read_csv('C:\\Users\\DELL\\End-to-End-Deployment-Model-Of-House-Price-Prediction\\Delhi house data.csv')
 df.head()
 
 df.shape
@@ -18,15 +18,10 @@ df.isnull().sum()
 
 df.drop(columns=['Status'],inplace=True)  # drop the column 'Status' as it is not contibute in predictiin of house price
 
-<<<<<<< HEAD
 df.duplicated().sum()   # return count of duplicate values
 
 df.drop_duplicates(inplace = True)  # drop the duplicate values
-=======
-df.duplicated().sum()    # return count of duplicate values
 
-df.drop_duplicates(inplace = True) # drop the duplicate values
->>>>>>> origin/main
 
 df[['Bathroom', 'Per_Sqft']] = df[['Bathroom', 'Per_Sqft']].fillna(df[['Bathroom', 'Per_Sqft']].mean())
 
@@ -101,7 +96,7 @@ df['Cleaned_Locality'] = df['Locality'].apply(extract_locality)
 # Display sample results
 df[['Locality', 'Cleaned_Locality']].head()
 
-df.drop(columns=['Locality'], inplace=True)
+# df.drop(columns=['Locality'], inplace=True)  # Moved to later
 
 df.head()
 
@@ -123,16 +118,19 @@ print(f"Mutual Information Score for Locality: {mi_score[0]}")
 
 print(df['Cleaned_Locality'].isnull().sum())  # Check missing values in original locality column
 
-# Now as Locality has major impact on House Price
-# then we Replace each locality with the mean price of that locality
-locality_price_map = df.groupby('Cleaned_Locality')['Price'].mean()     # Compute mean price per Locality
-df['Locality_Encoded'] = df['Cleaned_Locality'].map(locality_price_map)      # Replace with mean Price
+# df.drop(columns=['Locality'], inplace=True)  # Drop Locality now
 
-df.drop(columns = ['Cleaned_Locality'], inplace = True)
+# Now as Locality has major impact on House Price so we Replace each locality with the mean price of that locality
+# locality_price_map = df.groupby('Cleaned_Locality')['Price'].mean()     # Compute mean price per Locality
+# df['Locality_Encoded'] = df['Cleaned_Locality'].map(locality_price_map)      # Replace with mean Price
+
+# df.drop(columns = ['Cleaned_Locality'], inplace = True)
 
 df.head()
 
 df.drop(columns='Short_Loc', inplace=True)
+
+df.drop(columns=['Locality'], inplace=True)  # Drop Locality here after all uses
 
 df.isnull().sum()
 
@@ -143,7 +141,7 @@ Visualize correlations between features and the target variable.
 
 # Checking relationship between variables by using Correlation heatmap
 figure = plt.figure(figsize=(15,10))
-sns.heatmap(df.corr(), annot=True, cmap='Blues')
+sns.heatmap(df.select_dtypes(include=[np.number]).corr(), annot=True, cmap='Blues')
 plt.title("Correlation Heatmap")
 plt.show()
 
@@ -172,10 +170,20 @@ y = df['Price']
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 results = []
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/main
+# Target encoding using TRAIN ONLY
+locality_price_map = X_train.join(y_train).groupby('Cleaned_Locality')['Price'].mean()
+
+X_train['Locality_Encoded'] = X_train['Cleaned_Locality'].map(locality_price_map)
+X_test['Locality_Encoded'] = X_test['Cleaned_Locality'].map(locality_price_map)
+
+# Handle unseen localities
+global_mean = y_train.mean()
+X_test['Locality_Encoded'].fillna(global_mean, inplace=True)
+
+X_train.drop(columns=['Cleaned_Locality'], inplace=True)
+X_test.drop(columns=['Cleaned_Locality'], inplace=True)
+
 # Train, predict, and evaluate each model in a loop
 for name, model in model_selection.items():
     model.fit(X_train, y_train)  # Train model
@@ -204,7 +212,7 @@ param_grid = {
 
 # Perform hyperparameter tuning for Random Forest
 rf = RandomForestRegressor(random_state=42)
-grid_search = GridSearchCV(rf, param_grid, cv=5, n_jobs=-1, verbose=2, scoring='r2', refit=True)
+grid_search = GridSearchCV(rf, param_grid, cv=5, n_jobs=1, verbose=2, scoring='r2', refit=True)
 grid_search.fit(X_train, y_train)
 
 # Get the best hyperparameters for Random Forest

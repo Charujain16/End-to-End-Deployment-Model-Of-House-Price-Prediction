@@ -42,4 +42,5 @@ This project aims to predict house prices in **Delhi** using **machine learning 
 4. **Make a Prediction**
   Send a POST request to /predict with JSON input:
 
+Note: To activate the environment: .venv\Scripts\Activate.ps1
 
