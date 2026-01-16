@@ -1,0 +1,9 @@
+flask
+numpy
+joblib
+pandas
+seaborn
+matplotlib
+scikit-learn
+xgboost
+streamlit

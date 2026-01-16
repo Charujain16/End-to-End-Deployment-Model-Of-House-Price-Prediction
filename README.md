@@ -1,46 +1,61 @@
+# India House Price Prediction
+
+Predict house prices across Indian cities using machine learning and Streamlit.
+
+## Project Overview
+This project uses a Random Forest model and various preprocessing techniques to predict house prices based on property features, location, and amenities. The app is built with Streamlit for an interactive user interface.
+
+## Features
+- Interactive UI for inputting property details
+- Location selection (State, City, Locality)
+- Amenities and property features
+- Real-time price prediction
+- Data preprocessing (encoding, scaling)
+- Model comparison (Baseline, Linear Regression, Random Forest)
+
+## File Structure
+- `app.py` — Streamlit web app for prediction
+- `house_price_prediction_model.py` — Model training and preprocessing (notebook)
+- `india_housing_prices.csv` — Dataset
+- `Indian_house_price_prediction_model.ipynb` — Full EDA, feature engineering, model training
+- `requirements.txt` — Python dependencies
+
+## Setup Instructions
+1. Clone the repository and navigate to the project folder.
+                        git clone https://github.com/your-username/house-price-prediction.git
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. Run the Streamlit app:
+   ```bash
+   streamlit run app.py
+   ```
+
+## Usage
+1. Open the app in your browser.
+2. Select location, property details, and amenities.
+3. Click "Predict Price" to get the estimated house price.
+
+## Model & Preprocessing
+- Random Forest model trained on Indian housing data
+- Ordinal encoding for low-cardinality categorical features
+- Target mean encoding for high-cardinality categorical features
+- Robust scaling for numerical features
+- Model and preprocessing objects saved as `.pkl` files
+
+## Results
+Model performance is compared using MAE, RMSE, and R² metrics. Random Forest generally outperforms baseline and linear models.
+
+## Visualization
+- EDA plots for feature distributions and correlations
+- Residual analysis for model validation
+
+## Contributing
+Pull requests and suggestions are welcome!
+
+## License
+This project is for educational purposes.
 # End-to-End-Deployment-Model-Of-House-Price-Prediction
 ### House Price Prediction Model 🏡  
-
-This project aims to predict house prices in **Delhi** using **machine learning techniques**. The dataset includes various features like **locality, furnishing status, number of bathrooms, per square foot price, and transaction type**.  
-
-#### 🔹 Key Features:  
-- **Data Preprocessing**: Handling missing values, encoding categorical variables, and feature engineering.  
-- **Feature Selection**: Correlation heatmap and mutual information analysis.  
-- **Model Training**: Using **Linear Regression, Random Forest, and XGBoost** to find the best-performing model.  
-- **Hyperparameter Tuning**: Optimizing Random Forest using **GridSearchCV**.  
-- **Deployment**: Flask-based API for real-time predictions.  
-
-#### 📊 Visualization:  
-- **Heatmaps**, **bar charts**, and **learning curves** to analyze data and model performance.  
-
-🔗 **Check out the detailed report for in-depth insights!** 🚀
-
-
-**Instruction to running the project**
-#### 🔹Repository Structure:  
-
-├── data/                        # Dataset files
-│   ├── Delhi_house_price.csv
-├── models/                      # Saved trained models
-│   ├── final_house_price_model.pkl
-├── src/                   # # Source code file for exploration & training
-│   ├── House_Price_Prediction.py
-├── app.py                        # Flask API script
-├── requirements.txt              # Required dependencies
-├── README.md                     # Project documentation (this file)
-
-#### 🔹Setup Instructions:
-1. **Clone the Repository & Install Dependencies**
-   git clone https://github.com/your-username/house-price-prediction.git
-   cd house-price-prediction
-   pip install -r requirements.txt
-   
-2. **Run the Flask API**
-   API runs at http://127.0.0.1:5000/predict
-   If Flask API not starting?--> Ensure port 5000 is available.
-
-4. **Make a Prediction**
-  Send a POST request to /predict with JSON input:
-
-Note: To activate the environment: .venv\Scripts\Activate.ps1
 
